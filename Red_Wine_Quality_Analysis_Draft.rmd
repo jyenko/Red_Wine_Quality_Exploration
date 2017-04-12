@@ -25,7 +25,7 @@ str(rw)
 Above, we can see a number of chemical factors present that can influence the
 quality of red wine.  
 
-At the bottom of this list lies our independent variable: quality. 
+At the bottom of this list lies our dependent variable: quality. 
 
 Quality is measured on a scale of 0-10 with ratings being provided by a minimum 
 of three wine experts for each wine.
@@ -110,10 +110,26 @@ We will now investigate the relationship between pH and quality.
 rw_pH_hq <- subset(rw, quality>=8)
 rw_pH_lq <- subset(rw, quality<=4)
 
-qplot(data=rw_pH_hq, x=pH, bins=50) +
+qplot(data=rw_pH_hq, x=pH, bins=50, main="pH of wines rated 8 and above") +
   xlim(2.7,4.1) +
   ylim(0,10)
-qplot(data=rw_pH_lq, x=pH, bins=50) +
+qplot(data=rw_pH_lq, x=pH, bins=50, main="pH of wines rated 4 and below") +
   xlim(2.7,4.1) +
   ylim(0,10)
 ```
+
+From these plots, it appears that higher quality wines tend to be more acidic, 
+while lower quality wines appear to be less acidic.
+
+Now we will examine the correlation between pH and wine quality.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+cor.test(rw$pH, rw$quality)
+```
+
+It appears that there is a weak negative correlation between pH and quality.  
+
+> From the above univariate analysis of alcohol content and pH with regard to 
+quality, it is clear that alcohol content more heavily influences wine quality 
+than does pH.  However, it will be interesting to investigate alcohol content 
+and pH together.
