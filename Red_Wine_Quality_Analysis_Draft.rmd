@@ -1,0 +1,82 @@
+Exploration of Red Wine Quality by Jeremy Yenko
+========================================================
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+library(ggplot2)
+```
+
+```{r echo=TRUE, Load_the_Data}
+rw <- read.csv('wineQualityReds.csv')
+
+```
+
+This analysis will focus on the many chemical properties that have the potential
+to influence the quality of red wines.    
+
+# Preliminary exploration
+
+### Variables in our dataset
+
+```{r echo=TRUE, Univariate_Plots}
+str(rw)
+
+```
+
+Above, we can see a number of chemical factors present that can influence the
+quality of red wine.  
+
+At the bottom of this list lies our independent variable: quality. 
+
+Quality is measured on a scale of 0-10 with ratings being provided by a minimum 
+of three wine experts for each wine.
+
+### Overview of wine quality
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, First_Plot}
+qplot(data = rw, x = quality) +
+  scale_x_continuous(limits = c(0, 10), breaks = seq(0, 10, 1))
+```
+
+As seen above, the quality ratings of the wines in our study appear to have
+a normal distribution.
+
+## Univariate Analysis
+
+### Alcohol content and wine quality
+
+> One of the first aspects of red wine we will want to examine is alcohol content.
+Below is a summary of the alcohol content of the wines in our dataset:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, Alcohol_Content_Summary}
+summary(rw$alcohol)
+```
+
+As seen above, our wines have a mean alcohol content of 10.42.  Since the mean
+is close to the median, this suggests we do not have many outliers and that 
+the mean is generally a reliable measure for the alcohol content variable.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, Basic_Info}
+rw_hq <- subset(rw, quality >= 8)
+qplot(data = rw_hq, x=alcohol, bins=50, main="Alcohol in wines rated 8 and above") +
+  xlim(8,15)
+rw_lq <- subset(rw, quality <= 4)
+qplot(data=rw_lq, x=alcohol, bins=50, main="Alcohol in wines rated 4 and below") +
+  xlim(8,15)
+qplot(data = rw, x=alcohol, bins=50, main="Alcohol in all wines") +
+  xlim(8,15)
+```
+
+These two plots show that the higher quality wines tend to have a greater 
+alcohol content than the lower quality wines.  For all wines, the distribution
+appears positively skewed.
+
+Now we will examine the correlation between alcohol and wine quality:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+cor.test(rw$alcohol, rw$quality)
+```
+
+We can see that there is a positive correlation between alcohol content and wine
+quality.  Although this correlation is not notably strong, the low p-value
+suggests it is a reliable measure.
+
