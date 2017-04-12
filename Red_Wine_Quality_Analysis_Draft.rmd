@@ -80,3 +80,40 @@ We can see that there is a positive correlation between alcohol content and wine
 quality.  Although this correlation is not notably strong, the low p-value
 suggests it is a reliable measure.
 
+### pH and wine quality
+
+> Another factor that can influence wine quality is pH.  Since wine is generally
+acidic, we will investigate whether or not the level of acidity influences wine
+quality.
+
+First, we will look at the distribution of pH across all of the wines in our 
+dataset.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+qplot(data = rw, x=pH, bins=50, main="Distribution of pH across all wines")
+```
+
+The pH values of our wines appear to follow a normal distribution.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+summary(rw$pH)
+```
+
+All of our wines have a pH well below 7.  Our most acidic wine has a pH value of
+2.740 and our least acidic wine has a pH value of 4.010.  The mean and median 
+are close, indicating the mean is generally a reliable measure for the pH of
+our wines.
+
+We will now investigate the relationship between pH and quality.
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+rw_pH_hq <- subset(rw, quality>=8)
+rw_pH_lq <- subset(rw, quality<=4)
+
+qplot(data=rw_pH_hq, x=pH, bins=50) +
+  xlim(2.7,4.1) +
+  ylim(0,10)
+qplot(data=rw_pH_lq, x=pH, bins=50) +
+  xlim(2.7,4.1) +
+  ylim(0,10)
+```
